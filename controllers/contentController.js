@@ -58,8 +58,59 @@ const markContentCompleted = async (req, res) => {
     }
 };
 
+const getOngoingCourses = async(req, res) => {
+    const {userId} = req.params;
+    try {
+        const user = await User.findById(userId);
+        if (!user){
+            return res.status(404).json({message: 'User not found'});
+
+            
+        }
+        const ongoingContentsIds = user.ongoingContents;
+        if (!ongoingContentsIds || ongoingContentsIds.length === 0){
+                return res.status(404).json({message: 'No ongoing courses found for this user'});
+        }
+        const ongoingCourses = await Content.find({
+            _id: {$in: ongoingContentsIds}
+        });
+
+        res.status(200).json(ongoingCourses);
+    }catch(error){
+        console.error(error);
+        res.status(500).json({ message: 'Error fetching ongoing courses' });
+    }
+};
+
+const getCompletedCourses = async (req, res) => {
+    const { userId } = req.params;
+    try {
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      const completedContentIds = user.completedContents;
+      if (!completedContentIds || completedContentIds.length === 0) {
+        return res.status(404).json({ message: 'No completed courses found for this user' });
+      }
+  
+      const completedCourses = await Content.find({
+        _id: { $in: completedContentIds }
+      });
+  
+      res.status(200).json(completedCourses);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error fetching completed courses' });
+    }
+  };
+  
+
 module.exports = {
     addContent,
     markContentOngoing,
-    markContentCompleted
+    markContentCompleted,
+    getOngoingCourses,
+    getCompletedCourses
 };

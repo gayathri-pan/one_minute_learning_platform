@@ -3,11 +3,13 @@ const router = express.Router();
 const {
     addContent,
     markContentOngoing,
-    markContentCompleted
+    markContentCompleted,
+    getOngoingCourses
 } = require('../controllers/contentController');
 
 router.post('/', addContent);
-router.patch('/ongoing/:contentID', markContentOngoing);
-router.patch('/complete/:contentId', markContentCompleted);
-
+router.patch('/ongoing/:contentId', markContentOngoing);
+router.patch('/completed/:contentId', markContentCompleted);
+router.patch('/ongoing/:userId', getOngoingCourses);
+router.patch('/completed/:userId', getCompletedCourses);
 module.exports = router;
