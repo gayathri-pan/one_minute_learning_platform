@@ -54,7 +54,11 @@ const userSchema = new mongoose.Schema({
     createdAt: {
         type: Date, 
         default: Date.now
-    }
+    },
+    enrolledCourses: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Content'
+    }]
 });
 
 module.exports = mongoose.model('User', userSchema);

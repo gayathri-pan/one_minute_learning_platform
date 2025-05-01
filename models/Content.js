@@ -12,10 +12,15 @@ const contentSchema = new mongoose.Schema({
     },
     contentText: {
         type: String,
-        required: true
+        required: function(){
+            return this.type === 'text';
+        } 
     },
     videoURL: {
-        type: String // for 'video' type content
+        type: String,
+        required: function() {
+            return this.type === 'video'; // Only required for 'video' type
+        } // for 'video' type content
     },
     quizQuestions: [{
         question: String,

@@ -1,10 +1,13 @@
 const express = require('express');
-const { getProfile, updateXP } = require('../controllers/userController');
+const router = express.Router();
+module.exports = router;
 const { verifyToken } = require('../middlewares/authMiddleware');
 
-const router = express.Router();
+const {
+    getProfile,
+    updateXP
+    
+} = require('../controllers/userController');
 
-router.get('/profile', verifyToken, getProfile);
+router.get('/profile/', verifyToken, getProfile);
 router.patch('/xp', verifyToken, updateXP);
-
-module.exports = router;
